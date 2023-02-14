@@ -5,7 +5,7 @@ rv32uf-p-bpu_wait:     file format elf32-littleriscv
 Disassembly of section .text.init:
 
 80000000 <_start>:
-80000000:	aa0d                	j	80000132 <reset_vector>
+80000000:	a225                	j	80000128 <reset_vector>
 80000002:	0001                	nop
 
 80000004 <trap_vector>:
@@ -15,627 +15,625 @@ Disassembly of section .text.init:
 80000010:	01e52023          	sw	t5,0(a0)
 80000014:	01f52223          	sw	t6,4(a0)
 80000018:	34202f73          	csrr	t5,mcause
-8000001c:	040f4163          	bltz	t5,8000005e <other_interrupts>
+8000001c:	020f4f63          	bltz	t5,8000005a <other_interrupts>
 80000020:	4fa1                	li	t6,8
-80000022:	07ff0263          	beq	t5,t6,80000086 <write_tohost>
+80000022:	05ff0d63          	beq	t5,t6,8000007c <write_tohost>
 80000026:	4fa5                	li	t6,9
-80000028:	05ff0f63          	beq	t5,t6,80000086 <write_tohost>
+80000028:	05ff0a63          	beq	t5,t6,8000007c <write_tohost>
 8000002c:	4fad                	li	t6,11
-8000002e:	05ff0c63          	beq	t5,t6,80000086 <write_tohost>
+8000002e:	05ff0763          	beq	t5,t6,8000007c <write_tohost>
 80000032:	4f85                	li	t6,1
-80000034:	0bff0563          	beq	t5,t6,800000de <ifetch_error_handler>
+80000034:	0bff0063          	beq	t5,t6,800000d4 <ifetch_error_handler>
 80000038:	4f95                	li	t6,5
-8000003a:	0dff0063          	beq	t5,t6,800000fa <load_error_handler>
+8000003a:	0bff0b63          	beq	t5,t6,800000f0 <load_error_handler>
 8000003e:	4f9d                	li	t6,7
-80000040:	0dff0b63          	beq	t5,t6,80000116 <store_error_handler>
-80000044:	80000f17          	auipc	t5,0x80000
-80000048:	fbcf0f13          	addi	t5,t5,-68 # 0 <_start-0x80000000>
-8000004c:	000f0363          	beqz	t5,80000052 <trap_vector+0x4e>
-80000050:	8f02                	jr	t5
-80000052:	34202f73          	csrr	t5,mcause
-80000056:	000f5363          	bgez	t5,8000005c <handle_exception>
-8000005a:	a009                	j	8000005c <handle_exception>
+80000040:	0dff0663          	beq	t5,t6,8000010c <store_error_handler>
+80000044:	00000f13          	li	t5,0
+80000048:	000f0363          	beqz	t5,8000004e <trap_vector+0x4a>
+8000004c:	8f02                	jr	t5
+8000004e:	34202f73          	csrr	t5,mcause
+80000052:	000f5363          	bgez	t5,80000058 <handle_exception>
+80000056:	a009                	j	80000058 <handle_exception>
 
-8000005c <handle_exception>:
-8000005c:	a01d                	j	80000082 <other_interrupts+0x24>
+80000058 <handle_exception>:
+80000058:	a005                	j	80000078 <other_interrupts+0x1e>
 
-8000005e <other_interrupts>:
-8000005e:	80000fb7          	lui	t6,0x80000
-80000062:	003f8f93          	addi	t6,t6,3 # 80000003 <_end+0xffffdfe3>
-80000066:	05ff0463          	beq	t5,t6,800000ae <sft_irq_handler>
-8000006a:	80000fb7          	lui	t6,0x80000
-8000006e:	007f8f93          	addi	t6,t6,7 # 80000007 <_end+0xffffdfe7>
-80000072:	05ff0a63          	beq	t5,t6,800000c6 <tmr_irq_handler>
-80000076:	80000fb7          	lui	t6,0x80000
-8000007a:	00bf8f93          	addi	t6,t6,11 # 8000000b <_end+0xffffdfeb>
-8000007e:	01ff0c63          	beq	t5,t6,80000096 <ext_irq_handler>
-80000082:	5391e193          	ori	gp,gp,1337
+8000005a <other_interrupts>:
+8000005a:	80000fb7          	lui	t6,0x80000
+8000005e:	0f8d                	addi	t6,t6,3
+80000060:	05ff0263          	beq	t5,t6,800000a4 <sft_irq_handler>
+80000064:	80000fb7          	lui	t6,0x80000
+80000068:	0f9d                	addi	t6,t6,7
+8000006a:	05ff0963          	beq	t5,t6,800000bc <tmr_irq_handler>
+8000006e:	80000fb7          	lui	t6,0x80000
+80000072:	0fad                	addi	t6,t6,11
+80000074:	01ff0c63          	beq	t5,t6,8000008c <ext_irq_handler>
+80000078:	5391e193          	ori	gp,gp,1337
 
-80000086 <write_tohost>:
-80000086:	4521                	li	a0,8
-80000088:	30052073          	csrs	mstatus,a0
-8000008c:	00001f17          	auipc	t5,0x1
-80000090:	f63f2a23          	sw	gp,-140(t5) # 80001000 <tohost>
-80000094:	bfcd                	j	80000086 <write_tohost>
+8000007c <write_tohost>:
+8000007c:	4521                	li	a0,8
+8000007e:	30052073          	csrs	mstatus,a0
+80000082:	00001f17          	auipc	t5,0x1
+80000086:	f63f2f23          	sw	gp,-130(t5) # 80001000 <tohost>
+8000008a:	bfcd                	j	8000007c <write_tohost>
 
-80000096 <ext_irq_handler>:
-80000096:	00002517          	auipc	a0,0x2
-8000009a:	f6a50513          	addi	a0,a0,-150 # 80002000 <test_trap_data>
-8000009e:	00052f03          	lw	t5,0(a0)
-800000a2:	00452f83          	lw	t6,4(a0)
-800000a6:	34002573          	csrr	a0,mscratch
-800000aa:	30200073          	mret
+8000008c <ext_irq_handler>:
+8000008c:	00002517          	auipc	a0,0x2
+80000090:	f7450513          	addi	a0,a0,-140 # 80002000 <test_trap_data>
+80000094:	00052f03          	lw	t5,0(a0)
+80000098:	00452f83          	lw	t6,4(a0)
+8000009c:	34002573          	csrr	a0,mscratch
+800000a0:	30200073          	mret
 
-800000ae <sft_irq_handler>:
-800000ae:	00002517          	auipc	a0,0x2
-800000b2:	f5250513          	addi	a0,a0,-174 # 80002000 <test_trap_data>
-800000b6:	00052f03          	lw	t5,0(a0)
-800000ba:	00452f83          	lw	t6,4(a0)
-800000be:	34002573          	csrr	a0,mscratch
-800000c2:	30200073          	mret
+800000a4 <sft_irq_handler>:
+800000a4:	00002517          	auipc	a0,0x2
+800000a8:	f5c50513          	addi	a0,a0,-164 # 80002000 <test_trap_data>
+800000ac:	00052f03          	lw	t5,0(a0)
+800000b0:	00452f83          	lw	t6,4(a0)
+800000b4:	34002573          	csrr	a0,mscratch
+800000b8:	30200073          	mret
 
-800000c6 <tmr_irq_handler>:
-800000c6:	00002517          	auipc	a0,0x2
-800000ca:	f3a50513          	addi	a0,a0,-198 # 80002000 <test_trap_data>
-800000ce:	00052f03          	lw	t5,0(a0)
-800000d2:	00452f83          	lw	t6,4(a0)
-800000d6:	34002573          	csrr	a0,mscratch
-800000da:	30200073          	mret
+800000bc <tmr_irq_handler>:
+800000bc:	00002517          	auipc	a0,0x2
+800000c0:	f4450513          	addi	a0,a0,-188 # 80002000 <test_trap_data>
+800000c4:	00052f03          	lw	t5,0(a0)
+800000c8:	00452f83          	lw	t6,4(a0)
+800000cc:	34002573          	csrr	a0,mscratch
+800000d0:	30200073          	mret
 
-800000de <ifetch_error_handler>:
-800000de:	00002517          	auipc	a0,0x2
-800000e2:	f2250513          	addi	a0,a0,-222 # 80002000 <test_trap_data>
-800000e6:	00052f03          	lw	t5,0(a0)
-800000ea:	00452f83          	lw	t6,4(a0)
-800000ee:	34302573          	csrr	a0,mbadaddr
-800000f2:	34002573          	csrr	a0,mscratch
-800000f6:	30200073          	mret
+800000d4 <ifetch_error_handler>:
+800000d4:	00002517          	auipc	a0,0x2
+800000d8:	f2c50513          	addi	a0,a0,-212 # 80002000 <test_trap_data>
+800000dc:	00052f03          	lw	t5,0(a0)
+800000e0:	00452f83          	lw	t6,4(a0)
+800000e4:	34302573          	csrr	a0,mtval
+800000e8:	34002573          	csrr	a0,mscratch
+800000ec:	30200073          	mret
 
-800000fa <load_error_handler>:
-800000fa:	00002517          	auipc	a0,0x2
-800000fe:	f0650513          	addi	a0,a0,-250 # 80002000 <test_trap_data>
-80000102:	00052f03          	lw	t5,0(a0)
-80000106:	00452f83          	lw	t6,4(a0)
-8000010a:	34302573          	csrr	a0,mbadaddr
-8000010e:	34002573          	csrr	a0,mscratch
-80000112:	30200073          	mret
+800000f0 <load_error_handler>:
+800000f0:	00002517          	auipc	a0,0x2
+800000f4:	f1050513          	addi	a0,a0,-240 # 80002000 <test_trap_data>
+800000f8:	00052f03          	lw	t5,0(a0)
+800000fc:	00452f83          	lw	t6,4(a0)
+80000100:	34302573          	csrr	a0,mtval
+80000104:	34002573          	csrr	a0,mscratch
+80000108:	30200073          	mret
 
-80000116 <store_error_handler>:
-80000116:	00002517          	auipc	a0,0x2
-8000011a:	eea50513          	addi	a0,a0,-278 # 80002000 <test_trap_data>
-8000011e:	00052f03          	lw	t5,0(a0)
-80000122:	00452f83          	lw	t6,4(a0)
-80000126:	34302573          	csrr	a0,mbadaddr
-8000012a:	34002573          	csrr	a0,mscratch
-8000012e:	30200073          	mret
+8000010c <store_error_handler>:
+8000010c:	00002517          	auipc	a0,0x2
+80000110:	ef450513          	addi	a0,a0,-268 # 80002000 <test_trap_data>
+80000114:	00052f03          	lw	t5,0(a0)
+80000118:	00452f83          	lw	t6,4(a0)
+8000011c:	34302573          	csrr	a0,mtval
+80000120:	34002573          	csrr	a0,mscratch
+80000124:	30200073          	mret
 
-80000132 <reset_vector>:
-80000132:	00000f13          	li	t5,0
-80000136:	00000f93          	li	t6,0
-8000013a:	f1402573          	csrr	a0,mhartid
-8000013e:	e101                	bnez	a0,8000013e <reset_vector+0xc>
-80000140:	4181                	li	gp,0
-80000142:	00000297          	auipc	t0,0x0
-80000146:	ec228293          	addi	t0,t0,-318 # 80000004 <trap_vector>
-8000014a:	4521                	li	a0,8
-8000014c:	30052073          	csrs	mstatus,a0
-80000150:	fff00513          	li	a0,-1
-80000154:	30452073          	csrs	mie,a0
-80000158:	30529073          	csrw	mtvec,t0
+80000128 <reset_vector>:
+80000128:	00000f13          	li	t5,0
+8000012c:	00000f93          	li	t6,0
+80000130:	f1402573          	csrr	a0,mhartid
+80000134:	e101                	bnez	a0,80000134 <reset_vector+0xc>
+80000136:	4181                	li	gp,0
+80000138:	00000297          	auipc	t0,0x0
+8000013c:	ecc28293          	addi	t0,t0,-308 # 80000004 <trap_vector>
+80000140:	4521                	li	a0,8
+80000142:	30052073          	csrs	mstatus,a0
+80000146:	fff00513          	li	a0,-1
+8000014a:	30452073          	csrs	mie,a0
+8000014e:	30529073          	csrw	mtvec,t0
 
-8000015c <post_mtvec>:
-8000015c:	80000297          	auipc	t0,0x80000
-80000160:	ea428293          	addi	t0,t0,-348 # 0 <_start-0x80000000>
-80000164:	00028e63          	beqz	t0,80000180 <post_mtvec+0x24>
-80000168:	10529073          	csrw	stvec,t0
-8000016c:	0000b2b7          	lui	t0,0xb
-80000170:	10928293          	addi	t0,t0,265 # b109 <_start-0x7fff4ef7>
-80000174:	30229073          	csrw	medeleg,t0
-80000178:	30202373          	csrr	t1,medeleg
-8000017c:	ee6290e3          	bne	t0,t1,8000005c <handle_exception>
-80000180:	30005073          	csrwi	mstatus,0
-80000184:	08000513          	li	a0,128
-80000188:	30052073          	csrs	mstatus,a0
-8000018c:	4501                	li	a0,0
-8000018e:	bfc51073          	csrw	0xbfc,a0
-80000192:	0000100f          	fence.i
-80000196:	000012b7          	lui	t0,0x1
-8000019a:	a0028293          	addi	t0,t0,-1536 # a00 <_start-0x7ffff600>
+80000152 <post_mtvec>:
+80000152:	00000293          	li	t0,0
+80000156:	00028d63          	beqz	t0,80000170 <post_mtvec+0x1e>
+8000015a:	10529073          	csrw	stvec,t0
+8000015e:	62ad                	lui	t0,0xb
+80000160:	10928293          	addi	t0,t0,265 # b109 <_start-0x7fff4ef7>
+80000164:	30229073          	csrw	medeleg,t0
+80000168:	30202373          	csrr	t1,medeleg
+8000016c:	ee6296e3          	bne	t0,t1,80000058 <handle_exception>
+80000170:	30005073          	csrwi	mstatus,0
+80000174:	08000513          	li	a0,128
+80000178:	30052073          	csrs	mstatus,a0
+8000017c:	4501                	li	a0,0
+8000017e:	bfc51073          	csrw	0xbfc,a0
+80000182:	0000100f          	fence.i
+80000186:	6285                	lui	t0,0x1
+80000188:	a0028293          	addi	t0,t0,-1536 # a00 <_start-0x7ffff600>
 
-8000019e <waitloop1>:
-8000019e:	12fd                	addi	t0,t0,-1
-800001a0:	fe029fe3          	bnez	t0,8000019e <waitloop1>
-800001a4:	100083b7          	lui	t2,0x10008
-800001a8:	00838393          	addi	t2,t2,8 # 10008008 <_start-0x6fff7ff8>
-800001ac:	0003a283          	lw	t0,0(t2)
-800001b0:	00040337          	lui	t1,0x40
-800001b4:	fff34313          	not	t1,t1
-800001b8:	0062f2b3          	and	t0,t0,t1
-800001bc:	0053a023          	sw	t0,0(t2)
-800001c0:	40000293          	li	t0,1024
+8000018c <waitloop1>:
+8000018c:	12fd                	addi	t0,t0,-1
+8000018e:	fe029fe3          	bnez	t0,8000018c <waitloop1>
+80000192:	100083b7          	lui	t2,0x10008
+80000196:	03a1                	addi	t2,t2,8
+80000198:	0003a283          	lw	t0,0(t2) # 10008000 <_start-0x6fff8000>
+8000019c:	00040337          	lui	t1,0x40
+800001a0:	fff34313          	not	t1,t1
+800001a4:	0062f2b3          	and	t0,t0,t1
+800001a8:	0053a023          	sw	t0,0(t2)
+800001ac:	40000293          	li	t0,1024
 
-800001c4 <waitloop2>:
-800001c4:	12fd                	addi	t0,t0,-1
-800001c6:	0003ae03          	lw	t3,0(t2)
-800001ca:	fe029de3          	bnez	t0,800001c4 <waitloop2>
-800001ce:	0003a283          	lw	t0,0(t2)
-800001d2:	00040337          	lui	t1,0x40
-800001d6:	0062e2b3          	or	t0,t0,t1
-800001da:	0053a023          	sw	t0,0(t2)
-800001de:	0003a283          	lw	t0,0(t2)
-800001e2:	4305                	li	t1,1
-800001e4:	0062e2b3          	or	t0,t0,t1
-800001e8:	0053a023          	sw	t0,0(t2)
-800001ec:	0003a283          	lw	t0,0(t2)
-800001f0:	02000313          	li	t1,32
-800001f4:	0062e2b3          	or	t0,t0,t1
-800001f8:	0053a023          	sw	t0,0(t2)
-800001fc:	000012b7          	lui	t0,0x1
-80000200:	a0028293          	addi	t0,t0,-1536 # a00 <_start-0x7ffff600>
+800001b0 <waitloop2>:
+800001b0:	12fd                	addi	t0,t0,-1
+800001b2:	0003ae03          	lw	t3,0(t2)
+800001b6:	fe029de3          	bnez	t0,800001b0 <waitloop2>
+800001ba:	0003a283          	lw	t0,0(t2)
+800001be:	00040337          	lui	t1,0x40
+800001c2:	0062e2b3          	or	t0,t0,t1
+800001c6:	0053a023          	sw	t0,0(t2)
+800001ca:	0003a283          	lw	t0,0(t2)
+800001ce:	4305                	li	t1,1
+800001d0:	0062e2b3          	or	t0,t0,t1
+800001d4:	0053a023          	sw	t0,0(t2)
+800001d8:	0003a283          	lw	t0,0(t2)
+800001dc:	02000313          	li	t1,32
+800001e0:	0062e2b3          	or	t0,t0,t1
+800001e4:	0053a023          	sw	t0,0(t2)
+800001e8:	6285                	lui	t0,0x1
+800001ea:	a0028293          	addi	t0,t0,-1536 # a00 <_start-0x7ffff600>
 
-80000204 <waitloop3>:
-80000204:	12fd                	addi	t0,t0,-1
-80000206:	fe029fe3          	bnez	t0,80000204 <waitloop3>
-8000020a:	0003a283          	lw	t0,0(t2)
-8000020e:	00040337          	lui	t1,0x40
-80000212:	fff34313          	not	t1,t1
-80000216:	0062f2b3          	and	t0,t0,t1
-8000021a:	0053a023          	sw	t0,0(t2)
-8000021e:	10000293          	li	t0,256
+800001ee <waitloop3>:
+800001ee:	12fd                	addi	t0,t0,-1
+800001f0:	fe029fe3          	bnez	t0,800001ee <waitloop3>
+800001f4:	0003a283          	lw	t0,0(t2)
+800001f8:	00040337          	lui	t1,0x40
+800001fc:	fff34313          	not	t1,t1
+80000200:	0062f2b3          	and	t0,t0,t1
+80000204:	0053a023          	sw	t0,0(t2)
+80000208:	10000293          	li	t0,256
 
-80000222 <waitloop4>:
-80000222:	12fd                	addi	t0,t0,-1
-80000224:	fe029fe3          	bnez	t0,80000222 <waitloop4>
-80000228:	100083b7          	lui	t2,0x10008
-8000022c:	00c38393          	addi	t2,t2,12 # 1000800c <_start-0x6fff7ff4>
-80000230:	0003a283          	lw	t0,0(t2)
-80000234:	10000313          	li	t1,256
-80000238:	fff34313          	not	t1,t1
-8000023c:	0062f2b3          	and	t0,t0,t1
-80000240:	4309                	li	t1,2
-80000242:	0062e2b3          	or	t0,t0,t1
-80000246:	0053a023          	sw	t0,0(t2)
-8000024a:	40000293          	li	t0,1024
-8000024e:	00002537          	lui	a0,0x2
-80000252:	80050513          	addi	a0,a0,-2048 # 1800 <_start-0x7fffe800>
-80000256:	30052073          	csrs	mstatus,a0
-8000025a:	00000297          	auipc	t0,0x0
-8000025e:	01428293          	addi	t0,t0,20 # 8000026e <waitloop4+0x4c>
-80000262:	34129073          	csrw	mepc,t0
-80000266:	f1402573          	csrr	a0,mhartid
-8000026a:	30200073          	mret
-8000026e:	00002f17          	auipc	t5,0x2
-80000272:	d9af0f13          	addi	t5,t5,-614 # 80002008 <test_bpu_wait_data>
-80000276:	00002f97          	auipc	t6,0x2
-8000027a:	d92f8f93          	addi	t6,t6,-622 # 80002008 <test_bpu_wait_data>
-8000027e:	00002517          	auipc	a0,0x2
-80000282:	d8a50513          	addi	a0,a0,-630 # 80002008 <test_bpu_wait_data>
-80000286:	00000597          	auipc	a1,0x0
-8000028a:	01658593          	addi	a1,a1,22 # 8000029c <waitloop4+0x7a>
-8000028e:	c10c                	sw	a1,0(a0)
+8000020c <waitloop4>:
+8000020c:	12fd                	addi	t0,t0,-1
+8000020e:	fe029fe3          	bnez	t0,8000020c <waitloop4>
+80000212:	100083b7          	lui	t2,0x10008
+80000216:	03b1                	addi	t2,t2,12
+80000218:	0003a283          	lw	t0,0(t2) # 10008000 <_start-0x6fff8000>
+8000021c:	10000313          	li	t1,256
+80000220:	fff34313          	not	t1,t1
+80000224:	0062f2b3          	and	t0,t0,t1
+80000228:	4309                	li	t1,2
+8000022a:	0062e2b3          	or	t0,t0,t1
+8000022e:	0053a023          	sw	t0,0(t2)
+80000232:	40000293          	li	t0,1024
+80000236:	6509                	lui	a0,0x2
+80000238:	80050513          	addi	a0,a0,-2048 # 1800 <_start-0x7fffe800>
+8000023c:	30052073          	csrs	mstatus,a0
+80000240:	00000297          	auipc	t0,0x0
+80000244:	01428293          	addi	t0,t0,20 # 80000254 <waitloop4+0x48>
+80000248:	34129073          	csrw	mepc,t0
+8000024c:	f1402573          	csrr	a0,mhartid
+80000250:	30200073          	mret
+80000254:	00002f17          	auipc	t5,0x2
+80000258:	db4f0f13          	addi	t5,t5,-588 # 80002008 <test_bpu_wait_data>
+8000025c:	00002f97          	auipc	t6,0x2
+80000260:	dacf8f93          	addi	t6,t6,-596 # 80002008 <test_bpu_wait_data>
+80000264:	00002517          	auipc	a0,0x2
+80000268:	da450513          	addi	a0,a0,-604 # 80002008 <test_bpu_wait_data>
+8000026c:	00000597          	auipc	a1,0x0
+80000270:	01658593          	addi	a1,a1,22 # 80000282 <waitloop4+0x76>
+80000274:	c10c                	sw	a1,0(a0)
+80000276:	10500073          	wfi
+8000027a:	00052303          	lw	t1,0(a0)
+8000027e:	000302e7          	jalr	t0,t1 # 40000 <_start-0x7ffc0000>
+80000282:	00000597          	auipc	a1,0x0
+80000286:	01658593          	addi	a1,a1,22 # 80000298 <waitloop4+0x8c>
+8000028a:	c10c                	sw	a1,0(a0)
+8000028c:	00052303          	lw	t1,0(a0)
 80000290:	10500073          	wfi
-80000294:	00052303          	lw	t1,0(a0)
-80000298:	000302e7          	jalr	t0,t1
-8000029c:	00000597          	auipc	a1,0x0
-800002a0:	01658593          	addi	a1,a1,22 # 800002b2 <waitloop4+0x90>
-800002a4:	c10c                	sw	a1,0(a0)
-800002a6:	00052303          	lw	t1,0(a0)
+80000294:	000302e7          	jalr	t0,t1
+80000298:	00000597          	auipc	a1,0x0
+8000029c:	01658593          	addi	a1,a1,22 # 800002ae <waitloop4+0xa2>
+800002a0:	c10c                	sw	a1,0(a0)
+800002a2:	00052303          	lw	t1,0(a0)
+800002a6:	000302e7          	jalr	t0,t1
 800002aa:	10500073          	wfi
-800002ae:	000302e7          	jalr	t0,t1
-800002b2:	00000597          	auipc	a1,0x0
-800002b6:	01658593          	addi	a1,a1,22 # 800002c8 <waitloop4+0xa6>
-800002ba:	c10c                	sw	a1,0(a0)
-800002bc:	00052303          	lw	t1,0(a0)
-800002c0:	000302e7          	jalr	t0,t1
-800002c4:	10500073          	wfi
-800002c8:	00000597          	auipc	a1,0x0
-800002cc:	01658593          	addi	a1,a1,22 # 800002de <waitloop4+0xbc>
-800002d0:	c10c                	sw	a1,0(a0)
-800002d2:	00052303          	lw	t1,0(a0)
-800002d6:	000302e7          	jalr	t0,t1
-800002da:	10500073          	wfi
-800002de:	00000597          	auipc	a1,0x0
-800002e2:	01258593          	addi	a1,a1,18 # 800002f0 <waitloop4+0xce>
-800002e6:	c10c                	sw	a1,0(a0)
-800002e8:	00052303          	lw	t1,0(a0)
-800002ec:	000302e7          	jalr	t0,t1
+800002ae:	00000597          	auipc	a1,0x0
+800002b2:	01658593          	addi	a1,a1,22 # 800002c4 <waitloop4+0xb8>
+800002b6:	c10c                	sw	a1,0(a0)
+800002b8:	00052303          	lw	t1,0(a0)
+800002bc:	000302e7          	jalr	t0,t1
+800002c0:	10500073          	wfi
+800002c4:	00000597          	auipc	a1,0x0
+800002c8:	01258593          	addi	a1,a1,18 # 800002d6 <waitloop4+0xca>
+800002cc:	c10c                	sw	a1,0(a0)
+800002ce:	00052303          	lw	t1,0(a0)
+800002d2:	000302e7          	jalr	t0,t1
+800002d6:	00000597          	auipc	a1,0x0
+800002da:	01a58593          	addi	a1,a1,26 # 800002f0 <waitloop4+0xe4>
+800002de:	c10c                	sw	a1,0(a0)
+800002e0:	10500073          	wfi
+800002e4:	00052303          	lw	t1,0(a0)
+800002e8:	000302e7          	jalr	t0,t1
+800002ec:	10500073          	wfi
 800002f0:	00000597          	auipc	a1,0x0
-800002f4:	01a58593          	addi	a1,a1,26 # 8000030a <waitloop4+0xe8>
+800002f4:	01258593          	addi	a1,a1,18 # 80000302 <waitloop4+0xf6>
 800002f8:	c10c                	sw	a1,0(a0)
-800002fa:	10500073          	wfi
-800002fe:	00052303          	lw	t1,0(a0)
-80000302:	000302e7          	jalr	t0,t1
-80000306:	10500073          	wfi
-8000030a:	00000597          	auipc	a1,0x0
-8000030e:	01258593          	addi	a1,a1,18 # 8000031c <waitloop4+0xfa>
-80000312:	c10c                	sw	a1,0(a0)
-80000314:	00052303          	lw	t1,0(a0)
-80000318:	000302e7          	jalr	t0,t1
-8000031c:	00000597          	auipc	a1,0x0
-80000320:	01658593          	addi	a1,a1,22 # 80000332 <waitloop4+0x110>
-80000324:	c10c                	sw	a1,0(a0)
-80000326:	10500073          	wfi
-8000032a:	00052303          	lw	t1,0(a0)
-8000032e:	000302e7          	jalr	t0,t1
-80000332:	30102673          	csrr	a2,misa
-80000336:	8a05                	andi	a2,a2,1
-80000338:	48060e63          	beqz	a2,800007d4 <waitloop4+0x5b2>
-8000033c:	00000597          	auipc	a1,0x0
-80000340:	01258593          	addi	a1,a1,18 # 8000034e <waitloop4+0x12c>
-80000344:	c10c                	sw	a1,0(a0)
-80000346:	0055232f          	amoadd.w	t1,t0,(a0)
-8000034a:	000302e7          	jalr	t0,t1
-8000034e:	00000597          	auipc	a1,0x0
-80000352:	01258593          	addi	a1,a1,18 # 80000360 <waitloop4+0x13e>
-80000356:	c10c                	sw	a1,0(a0)
-80000358:	0055232f          	amoadd.w	t1,t0,(a0)
-8000035c:	000302e7          	jalr	t0,t1
-80000360:	00000597          	auipc	a1,0x0
-80000364:	01258593          	addi	a1,a1,18 # 80000372 <waitloop4+0x150>
-80000368:	c10c                	sw	a1,0(a0)
-8000036a:	0055232f          	amoadd.w	t1,t0,(a0)
-8000036e:	000302e7          	jalr	t0,t1
-80000372:	00000597          	auipc	a1,0x0
-80000376:	01258593          	addi	a1,a1,18 # 80000384 <waitloop4+0x162>
-8000037a:	c10c                	sw	a1,0(a0)
-8000037c:	0055232f          	amoadd.w	t1,t0,(a0)
-80000380:	000302e7          	jalr	t0,t1
-80000384:	00000597          	auipc	a1,0x0
-80000388:	01258593          	addi	a1,a1,18 # 80000396 <waitloop4+0x174>
-8000038c:	c10c                	sw	a1,0(a0)
-8000038e:	0055232f          	amoadd.w	t1,t0,(a0)
-80000392:	000302e7          	jalr	t0,t1
-80000396:	00000597          	auipc	a1,0x0
-8000039a:	01258593          	addi	a1,a1,18 # 800003a8 <waitloop4+0x186>
-8000039e:	c10c                	sw	a1,0(a0)
-800003a0:	0055232f          	amoadd.w	t1,t0,(a0)
-800003a4:	000302e7          	jalr	t0,t1
-800003a8:	00000597          	auipc	a1,0x0
-800003ac:	01258593          	addi	a1,a1,18 # 800003ba <waitloop4+0x198>
-800003b0:	c10c                	sw	a1,0(a0)
-800003b2:	0055232f          	amoadd.w	t1,t0,(a0)
-800003b6:	000302e7          	jalr	t0,t1
-800003ba:	00000597          	auipc	a1,0x0
-800003be:	01258593          	addi	a1,a1,18 # 800003cc <waitloop4+0x1aa>
-800003c2:	c10c                	sw	a1,0(a0)
-800003c4:	0055232f          	amoadd.w	t1,t0,(a0)
-800003c8:	000302e7          	jalr	t0,t1
-800003cc:	00000597          	auipc	a1,0x0
-800003d0:	01258593          	addi	a1,a1,18 # 800003de <waitloop4+0x1bc>
-800003d4:	c10c                	sw	a1,0(a0)
-800003d6:	0055232f          	amoadd.w	t1,t0,(a0)
-800003da:	000302e7          	jalr	t0,t1
-800003de:	00000597          	auipc	a1,0x0
-800003e2:	01258593          	addi	a1,a1,18 # 800003f0 <waitloop4+0x1ce>
-800003e6:	c10c                	sw	a1,0(a0)
-800003e8:	0055232f          	amoadd.w	t1,t0,(a0)
-800003ec:	000302e7          	jalr	t0,t1
-800003f0:	00000597          	auipc	a1,0x0
-800003f4:	01658593          	addi	a1,a1,22 # 80000406 <waitloop4+0x1e4>
-800003f8:	c10c                	sw	a1,0(a0)
-800003fa:	0055232f          	amoadd.w	t1,t0,(a0)
-800003fe:	000302e7          	jalr	t0,t1
-80000402:	10500073          	wfi
-80000406:	00000597          	auipc	a1,0x0
-8000040a:	01258593          	addi	a1,a1,18 # 80000418 <waitloop4+0x1f6>
-8000040e:	c10c                	sw	a1,0(a0)
-80000410:	0055232f          	amoadd.w	t1,t0,(a0)
-80000414:	000302e7          	jalr	t0,t1
-80000418:	00000597          	auipc	a1,0x0
-8000041c:	01258593          	addi	a1,a1,18 # 8000042a <waitloop4+0x208>
-80000420:	c10c                	sw	a1,0(a0)
-80000422:	0055232f          	amoadd.w	t1,t0,(a0)
-80000426:	000302e7          	jalr	t0,t1
-8000042a:	00000597          	auipc	a1,0x0
-8000042e:	01258593          	addi	a1,a1,18 # 8000043c <waitloop4+0x21a>
-80000432:	c10c                	sw	a1,0(a0)
-80000434:	0055232f          	amoadd.w	t1,t0,(a0)
-80000438:	000302e7          	jalr	t0,t1
-8000043c:	00000597          	auipc	a1,0x0
-80000440:	01658593          	addi	a1,a1,22 # 80000452 <waitloop4+0x230>
-80000444:	10500073          	wfi
-80000448:	c10c                	sw	a1,0(a0)
-8000044a:	0055232f          	amoadd.w	t1,t0,(a0)
-8000044e:	000302e7          	jalr	t0,t1
-80000452:	00000597          	auipc	a1,0x0
-80000456:	01258593          	addi	a1,a1,18 # 80000464 <waitloop4+0x242>
-8000045a:	c10c                	sw	a1,0(a0)
-8000045c:	0055232f          	amoadd.w	t1,t0,(a0)
-80000460:	000302e7          	jalr	t0,t1
-80000464:	00000597          	auipc	a1,0x0
-80000468:	01258593          	addi	a1,a1,18 # 80000476 <waitloop4+0x254>
-8000046c:	c10c                	sw	a1,0(a0)
-8000046e:	0055232f          	amoadd.w	t1,t0,(a0)
-80000472:	000302e7          	jalr	t0,t1
-80000476:	00000597          	auipc	a1,0x0
-8000047a:	01658593          	addi	a1,a1,22 # 8000048c <waitloop4+0x26a>
-8000047e:	c10c                	sw	a1,0(a0)
-80000480:	0055232f          	amoadd.w	t1,t0,(a0)
-80000484:	10500073          	wfi
-80000488:	000302e7          	jalr	t0,t1
-8000048c:	00000597          	auipc	a1,0x0
-80000490:	01258593          	addi	a1,a1,18 # 8000049e <waitloop4+0x27c>
-80000494:	c10c                	sw	a1,0(a0)
-80000496:	0055232f          	amoadd.w	t1,t0,(a0)
+800002fa:	00052303          	lw	t1,0(a0)
+800002fe:	000302e7          	jalr	t0,t1
+80000302:	00000597          	auipc	a1,0x0
+80000306:	01658593          	addi	a1,a1,22 # 80000318 <waitloop4+0x10c>
+8000030a:	c10c                	sw	a1,0(a0)
+8000030c:	10500073          	wfi
+80000310:	00052303          	lw	t1,0(a0)
+80000314:	000302e7          	jalr	t0,t1
+80000318:	30102673          	csrr	a2,misa
+8000031c:	8a05                	andi	a2,a2,1
+8000031e:	48060e63          	beqz	a2,800007ba <waitloop4+0x5ae>
+80000322:	00000597          	auipc	a1,0x0
+80000326:	01258593          	addi	a1,a1,18 # 80000334 <waitloop4+0x128>
+8000032a:	c10c                	sw	a1,0(a0)
+8000032c:	0055232f          	amoadd.w	t1,t0,(a0)
+80000330:	000302e7          	jalr	t0,t1
+80000334:	00000597          	auipc	a1,0x0
+80000338:	01258593          	addi	a1,a1,18 # 80000346 <waitloop4+0x13a>
+8000033c:	c10c                	sw	a1,0(a0)
+8000033e:	0055232f          	amoadd.w	t1,t0,(a0)
+80000342:	000302e7          	jalr	t0,t1
+80000346:	00000597          	auipc	a1,0x0
+8000034a:	01258593          	addi	a1,a1,18 # 80000358 <waitloop4+0x14c>
+8000034e:	c10c                	sw	a1,0(a0)
+80000350:	0055232f          	amoadd.w	t1,t0,(a0)
+80000354:	000302e7          	jalr	t0,t1
+80000358:	00000597          	auipc	a1,0x0
+8000035c:	01258593          	addi	a1,a1,18 # 8000036a <waitloop4+0x15e>
+80000360:	c10c                	sw	a1,0(a0)
+80000362:	0055232f          	amoadd.w	t1,t0,(a0)
+80000366:	000302e7          	jalr	t0,t1
+8000036a:	00000597          	auipc	a1,0x0
+8000036e:	01258593          	addi	a1,a1,18 # 8000037c <waitloop4+0x170>
+80000372:	c10c                	sw	a1,0(a0)
+80000374:	0055232f          	amoadd.w	t1,t0,(a0)
+80000378:	000302e7          	jalr	t0,t1
+8000037c:	00000597          	auipc	a1,0x0
+80000380:	01258593          	addi	a1,a1,18 # 8000038e <waitloop4+0x182>
+80000384:	c10c                	sw	a1,0(a0)
+80000386:	0055232f          	amoadd.w	t1,t0,(a0)
+8000038a:	000302e7          	jalr	t0,t1
+8000038e:	00000597          	auipc	a1,0x0
+80000392:	01258593          	addi	a1,a1,18 # 800003a0 <waitloop4+0x194>
+80000396:	c10c                	sw	a1,0(a0)
+80000398:	0055232f          	amoadd.w	t1,t0,(a0)
+8000039c:	000302e7          	jalr	t0,t1
+800003a0:	00000597          	auipc	a1,0x0
+800003a4:	01258593          	addi	a1,a1,18 # 800003b2 <waitloop4+0x1a6>
+800003a8:	c10c                	sw	a1,0(a0)
+800003aa:	0055232f          	amoadd.w	t1,t0,(a0)
+800003ae:	000302e7          	jalr	t0,t1
+800003b2:	00000597          	auipc	a1,0x0
+800003b6:	01258593          	addi	a1,a1,18 # 800003c4 <waitloop4+0x1b8>
+800003ba:	c10c                	sw	a1,0(a0)
+800003bc:	0055232f          	amoadd.w	t1,t0,(a0)
+800003c0:	000302e7          	jalr	t0,t1
+800003c4:	00000597          	auipc	a1,0x0
+800003c8:	01258593          	addi	a1,a1,18 # 800003d6 <waitloop4+0x1ca>
+800003cc:	c10c                	sw	a1,0(a0)
+800003ce:	0055232f          	amoadd.w	t1,t0,(a0)
+800003d2:	000302e7          	jalr	t0,t1
+800003d6:	00000597          	auipc	a1,0x0
+800003da:	01658593          	addi	a1,a1,22 # 800003ec <waitloop4+0x1e0>
+800003de:	c10c                	sw	a1,0(a0)
+800003e0:	0055232f          	amoadd.w	t1,t0,(a0)
+800003e4:	000302e7          	jalr	t0,t1
+800003e8:	10500073          	wfi
+800003ec:	00000597          	auipc	a1,0x0
+800003f0:	01258593          	addi	a1,a1,18 # 800003fe <waitloop4+0x1f2>
+800003f4:	c10c                	sw	a1,0(a0)
+800003f6:	0055232f          	amoadd.w	t1,t0,(a0)
+800003fa:	000302e7          	jalr	t0,t1
+800003fe:	00000597          	auipc	a1,0x0
+80000402:	01258593          	addi	a1,a1,18 # 80000410 <waitloop4+0x204>
+80000406:	c10c                	sw	a1,0(a0)
+80000408:	0055232f          	amoadd.w	t1,t0,(a0)
+8000040c:	000302e7          	jalr	t0,t1
+80000410:	00000597          	auipc	a1,0x0
+80000414:	01258593          	addi	a1,a1,18 # 80000422 <waitloop4+0x216>
+80000418:	c10c                	sw	a1,0(a0)
+8000041a:	0055232f          	amoadd.w	t1,t0,(a0)
+8000041e:	000302e7          	jalr	t0,t1
+80000422:	00000597          	auipc	a1,0x0
+80000426:	01658593          	addi	a1,a1,22 # 80000438 <waitloop4+0x22c>
+8000042a:	10500073          	wfi
+8000042e:	c10c                	sw	a1,0(a0)
+80000430:	0055232f          	amoadd.w	t1,t0,(a0)
+80000434:	000302e7          	jalr	t0,t1
+80000438:	00000597          	auipc	a1,0x0
+8000043c:	01258593          	addi	a1,a1,18 # 8000044a <waitloop4+0x23e>
+80000440:	c10c                	sw	a1,0(a0)
+80000442:	0055232f          	amoadd.w	t1,t0,(a0)
+80000446:	000302e7          	jalr	t0,t1
+8000044a:	00000597          	auipc	a1,0x0
+8000044e:	01258593          	addi	a1,a1,18 # 8000045c <waitloop4+0x250>
+80000452:	c10c                	sw	a1,0(a0)
+80000454:	0055232f          	amoadd.w	t1,t0,(a0)
+80000458:	000302e7          	jalr	t0,t1
+8000045c:	00000597          	auipc	a1,0x0
+80000460:	01658593          	addi	a1,a1,22 # 80000472 <waitloop4+0x266>
+80000464:	c10c                	sw	a1,0(a0)
+80000466:	0055232f          	amoadd.w	t1,t0,(a0)
+8000046a:	10500073          	wfi
+8000046e:	000302e7          	jalr	t0,t1
+80000472:	00000597          	auipc	a1,0x0
+80000476:	01258593          	addi	a1,a1,18 # 80000484 <waitloop4+0x278>
+8000047a:	c10c                	sw	a1,0(a0)
+8000047c:	0055232f          	amoadd.w	t1,t0,(a0)
+80000480:	000302e7          	jalr	t0,t1
+80000484:	00000597          	auipc	a1,0x0
+80000488:	01a58593          	addi	a1,a1,26 # 8000049e <waitloop4+0x292>
+8000048c:	c10c                	sw	a1,0(a0)
+8000048e:	10500073          	wfi
+80000492:	0055232f          	amoadd.w	t1,t0,(a0)
+80000496:	10500073          	wfi
 8000049a:	000302e7          	jalr	t0,t1
 8000049e:	00000597          	auipc	a1,0x0
-800004a2:	01a58593          	addi	a1,a1,26 # 800004b8 <waitloop4+0x296>
-800004a6:	c10c                	sw	a1,0(a0)
-800004a8:	10500073          	wfi
+800004a2:	01a58593          	addi	a1,a1,26 # 800004b8 <waitloop4+0x2ac>
+800004a6:	10500073          	wfi
+800004aa:	c10c                	sw	a1,0(a0)
 800004ac:	0055232f          	amoadd.w	t1,t0,(a0)
 800004b0:	10500073          	wfi
 800004b4:	000302e7          	jalr	t0,t1
-800004b8:	00000597          	auipc	a1,0x0
-800004bc:	01a58593          	addi	a1,a1,26 # 800004d2 <waitloop4+0x2b0>
-800004c0:	10500073          	wfi
+800004b8:	10500073          	wfi
+800004bc:	00000597          	auipc	a1,0x0
+800004c0:	01258593          	addi	a1,a1,18 # 800004ce <waitloop4+0x2c2>
 800004c4:	c10c                	sw	a1,0(a0)
 800004c6:	0055232f          	amoadd.w	t1,t0,(a0)
-800004ca:	10500073          	wfi
-800004ce:	000302e7          	jalr	t0,t1
-800004d2:	10500073          	wfi
-800004d6:	00000597          	auipc	a1,0x0
-800004da:	01258593          	addi	a1,a1,18 # 800004e8 <waitloop4+0x2c6>
-800004de:	c10c                	sw	a1,0(a0)
-800004e0:	0055232f          	amoadd.w	t1,t0,(a0)
-800004e4:	000302e7          	jalr	t0,t1
-800004e8:	10500073          	wfi
-800004ec:	00000597          	auipc	a1,0x0
-800004f0:	01258593          	addi	a1,a1,18 # 800004fe <waitloop4+0x2dc>
-800004f4:	c10c                	sw	a1,0(a0)
-800004f6:	0055232f          	amoadd.w	t1,t0,(a0)
-800004fa:	000302e7          	jalr	t0,t1
+800004ca:	000302e7          	jalr	t0,t1
+800004ce:	10500073          	wfi
+800004d2:	00000597          	auipc	a1,0x0
+800004d6:	01258593          	addi	a1,a1,18 # 800004e4 <waitloop4+0x2d8>
+800004da:	c10c                	sw	a1,0(a0)
+800004dc:	0055232f          	amoadd.w	t1,t0,(a0)
+800004e0:	000302e7          	jalr	t0,t1
+800004e4:	00000597          	auipc	a1,0x0
+800004e8:	01658593          	addi	a1,a1,22 # 800004fa <waitloop4+0x2ee>
+800004ec:	10500073          	wfi
+800004f0:	c10c                	sw	a1,0(a0)
+800004f2:	0055232f          	amoadd.w	t1,t0,(a0)
+800004f6:	000302e7          	jalr	t0,t1
+800004fa:	10500073          	wfi
 800004fe:	00000597          	auipc	a1,0x0
-80000502:	01658593          	addi	a1,a1,22 # 80000514 <waitloop4+0x2f2>
-80000506:	10500073          	wfi
-8000050a:	c10c                	sw	a1,0(a0)
-8000050c:	0055232f          	amoadd.w	t1,t0,(a0)
-80000510:	000302e7          	jalr	t0,t1
-80000514:	10500073          	wfi
-80000518:	00000597          	auipc	a1,0x0
-8000051c:	01258593          	addi	a1,a1,18 # 8000052a <waitloop4+0x308>
-80000520:	c10c                	sw	a1,0(a0)
-80000522:	0055232f          	amoadd.w	t1,t0,(a0)
-80000526:	000302e7          	jalr	t0,t1
-8000052a:	10500073          	wfi
-8000052e:	00000597          	auipc	a1,0x0
-80000532:	01258593          	addi	a1,a1,18 # 80000540 <waitloop4+0x31e>
-80000536:	c10c                	sw	a1,0(a0)
+80000502:	01258593          	addi	a1,a1,18 # 80000510 <waitloop4+0x304>
+80000506:	c10c                	sw	a1,0(a0)
+80000508:	0055232f          	amoadd.w	t1,t0,(a0)
+8000050c:	000302e7          	jalr	t0,t1
+80000510:	10500073          	wfi
+80000514:	00000597          	auipc	a1,0x0
+80000518:	01258593          	addi	a1,a1,18 # 80000526 <waitloop4+0x31a>
+8000051c:	c10c                	sw	a1,0(a0)
+8000051e:	0055232f          	amoadd.w	t1,t0,(a0)
+80000522:	000302e7          	jalr	t0,t1
+80000526:	10500073          	wfi
+8000052a:	00000597          	auipc	a1,0x0
+8000052e:	01658593          	addi	a1,a1,22 # 80000540 <waitloop4+0x334>
+80000532:	c10c                	sw	a1,0(a0)
+80000534:	10500073          	wfi
 80000538:	0055232f          	amoadd.w	t1,t0,(a0)
 8000053c:	000302e7          	jalr	t0,t1
-80000540:	10500073          	wfi
-80000544:	00000597          	auipc	a1,0x0
-80000548:	01658593          	addi	a1,a1,22 # 8000055a <waitloop4+0x338>
-8000054c:	c10c                	sw	a1,0(a0)
-8000054e:	10500073          	wfi
-80000552:	0055232f          	amoadd.w	t1,t0,(a0)
-80000556:	000302e7          	jalr	t0,t1
-8000055a:	00000597          	auipc	a1,0x0
-8000055e:	01658593          	addi	a1,a1,22 # 80000570 <waitloop4+0x34e>
-80000562:	c10c                	sw	a1,0(a0)
+80000540:	00000597          	auipc	a1,0x0
+80000544:	01658593          	addi	a1,a1,22 # 80000556 <waitloop4+0x34a>
+80000548:	c10c                	sw	a1,0(a0)
+8000054a:	10500073          	wfi
+8000054e:	0055232f          	amoadd.w	t1,t0,(a0)
+80000552:	000302e7          	jalr	t0,t1
+80000556:	00000597          	auipc	a1,0x0
+8000055a:	01658593          	addi	a1,a1,22 # 8000056c <waitloop4+0x360>
+8000055e:	c10c                	sw	a1,0(a0)
+80000560:	0055232f          	amoadd.w	t1,t0,(a0)
 80000564:	10500073          	wfi
-80000568:	0055232f          	amoadd.w	t1,t0,(a0)
-8000056c:	000302e7          	jalr	t0,t1
-80000570:	00000597          	auipc	a1,0x0
-80000574:	01658593          	addi	a1,a1,22 # 80000586 <waitloop4+0x364>
-80000578:	c10c                	sw	a1,0(a0)
+80000568:	000302e7          	jalr	t0,t1
+8000056c:	00000597          	auipc	a1,0x0
+80000570:	01658593          	addi	a1,a1,22 # 80000582 <waitloop4+0x376>
+80000574:	c10c                	sw	a1,0(a0)
+80000576:	10500073          	wfi
 8000057a:	0055232f          	amoadd.w	t1,t0,(a0)
-8000057e:	10500073          	wfi
-80000582:	000302e7          	jalr	t0,t1
-80000586:	00000597          	auipc	a1,0x0
-8000058a:	01658593          	addi	a1,a1,22 # 8000059c <waitloop4+0x37a>
-8000058e:	c10c                	sw	a1,0(a0)
-80000590:	10500073          	wfi
-80000594:	0055232f          	amoadd.w	t1,t0,(a0)
-80000598:	000302e7          	jalr	t0,t1
-8000059c:	00000597          	auipc	a1,0x0
-800005a0:	01258593          	addi	a1,a1,18 # 800005ae <waitloop4+0x38c>
-800005a4:	c10c                	sw	a1,0(a0)
-800005a6:	0055232f          	amoadd.w	t1,t0,(a0)
-800005aa:	000302e7          	jalr	t0,t1
-800005ae:	00000597          	auipc	a1,0x0
-800005b2:	01258593          	addi	a1,a1,18 # 800005c0 <waitloop4+0x39e>
-800005b6:	c10c                	sw	a1,0(a0)
-800005b8:	0055232f          	amoadd.w	t1,t0,(a0)
-800005bc:	000302e7          	jalr	t0,t1
-800005c0:	00000597          	auipc	a1,0x0
-800005c4:	01258593          	addi	a1,a1,18 # 800005d2 <waitloop4+0x3b0>
-800005c8:	c10c                	sw	a1,0(a0)
-800005ca:	0055232f          	amoadd.w	t1,t0,(a0)
-800005ce:	000302e7          	jalr	t0,t1
-800005d2:	00000597          	auipc	a1,0x0
-800005d6:	01258593          	addi	a1,a1,18 # 800005e4 <waitloop4+0x3c2>
-800005da:	c10c                	sw	a1,0(a0)
-800005dc:	0055232f          	amoadd.w	t1,t0,(a0)
-800005e0:	000302e7          	jalr	t0,t1
-800005e4:	00000597          	auipc	a1,0x0
-800005e8:	01258593          	addi	a1,a1,18 # 800005f6 <waitloop4+0x3d4>
-800005ec:	c10c                	sw	a1,0(a0)
-800005ee:	0055232f          	amoadd.w	t1,t0,(a0)
-800005f2:	000302e7          	jalr	t0,t1
-800005f6:	00000597          	auipc	a1,0x0
-800005fa:	01258593          	addi	a1,a1,18 # 80000608 <waitloop4+0x3e6>
-800005fe:	c10c                	sw	a1,0(a0)
-80000600:	0055232f          	amoadd.w	t1,t0,(a0)
-80000604:	000302e7          	jalr	t0,t1
-80000608:	00000597          	auipc	a1,0x0
-8000060c:	01258593          	addi	a1,a1,18 # 8000061a <waitloop4+0x3f8>
-80000610:	c10c                	sw	a1,0(a0)
-80000612:	0055232f          	amoadd.w	t1,t0,(a0)
-80000616:	000302e7          	jalr	t0,t1
-8000061a:	00000597          	auipc	a1,0x0
-8000061e:	01258593          	addi	a1,a1,18 # 8000062c <waitloop4+0x40a>
-80000622:	c10c                	sw	a1,0(a0)
-80000624:	0055232f          	amoadd.w	t1,t0,(a0)
-80000628:	000302e7          	jalr	t0,t1
-8000062c:	00000597          	auipc	a1,0x0
-80000630:	01258593          	addi	a1,a1,18 # 8000063e <waitloop4+0x41c>
-80000634:	c10c                	sw	a1,0(a0)
-80000636:	0055232f          	amoadd.w	t1,t0,(a0)
-8000063a:	000302e7          	jalr	t0,t1
-8000063e:	00000597          	auipc	a1,0x0
-80000642:	01258593          	addi	a1,a1,18 # 80000650 <waitloop4+0x42e>
-80000646:	c10c                	sw	a1,0(a0)
-80000648:	0055232f          	amoadd.w	t1,t0,(a0)
-8000064c:	000302e7          	jalr	t0,t1
-80000650:	00000597          	auipc	a1,0x0
-80000654:	01258593          	addi	a1,a1,18 # 80000662 <waitloop4+0x440>
-80000658:	c10c                	sw	a1,0(a0)
-8000065a:	0055232f          	amoadd.w	t1,t0,(a0)
-8000065e:	000302e7          	jalr	t0,t1
-80000662:	00000597          	auipc	a1,0x0
-80000666:	01258593          	addi	a1,a1,18 # 80000674 <waitloop4+0x452>
-8000066a:	c10c                	sw	a1,0(a0)
-8000066c:	0055232f          	amoadd.w	t1,t0,(a0)
-80000670:	000302e7          	jalr	t0,t1
-80000674:	00000597          	auipc	a1,0x0
-80000678:	01258593          	addi	a1,a1,18 # 80000686 <waitloop4+0x464>
-8000067c:	c10c                	sw	a1,0(a0)
-8000067e:	0055232f          	amoadd.w	t1,t0,(a0)
-80000682:	000302e7          	jalr	t0,t1
-80000686:	00000597          	auipc	a1,0x0
-8000068a:	01258593          	addi	a1,a1,18 # 80000698 <waitloop4+0x476>
-8000068e:	c10c                	sw	a1,0(a0)
-80000690:	0055232f          	amoadd.w	t1,t0,(a0)
-80000694:	000302e7          	jalr	t0,t1
+8000057e:	000302e7          	jalr	t0,t1
+80000582:	00000597          	auipc	a1,0x0
+80000586:	01258593          	addi	a1,a1,18 # 80000594 <waitloop4+0x388>
+8000058a:	c10c                	sw	a1,0(a0)
+8000058c:	0055232f          	amoadd.w	t1,t0,(a0)
+80000590:	000302e7          	jalr	t0,t1
+80000594:	00000597          	auipc	a1,0x0
+80000598:	01258593          	addi	a1,a1,18 # 800005a6 <waitloop4+0x39a>
+8000059c:	c10c                	sw	a1,0(a0)
+8000059e:	0055232f          	amoadd.w	t1,t0,(a0)
+800005a2:	000302e7          	jalr	t0,t1
+800005a6:	00000597          	auipc	a1,0x0
+800005aa:	01258593          	addi	a1,a1,18 # 800005b8 <waitloop4+0x3ac>
+800005ae:	c10c                	sw	a1,0(a0)
+800005b0:	0055232f          	amoadd.w	t1,t0,(a0)
+800005b4:	000302e7          	jalr	t0,t1
+800005b8:	00000597          	auipc	a1,0x0
+800005bc:	01258593          	addi	a1,a1,18 # 800005ca <waitloop4+0x3be>
+800005c0:	c10c                	sw	a1,0(a0)
+800005c2:	0055232f          	amoadd.w	t1,t0,(a0)
+800005c6:	000302e7          	jalr	t0,t1
+800005ca:	00000597          	auipc	a1,0x0
+800005ce:	01258593          	addi	a1,a1,18 # 800005dc <waitloop4+0x3d0>
+800005d2:	c10c                	sw	a1,0(a0)
+800005d4:	0055232f          	amoadd.w	t1,t0,(a0)
+800005d8:	000302e7          	jalr	t0,t1
+800005dc:	00000597          	auipc	a1,0x0
+800005e0:	01258593          	addi	a1,a1,18 # 800005ee <waitloop4+0x3e2>
+800005e4:	c10c                	sw	a1,0(a0)
+800005e6:	0055232f          	amoadd.w	t1,t0,(a0)
+800005ea:	000302e7          	jalr	t0,t1
+800005ee:	00000597          	auipc	a1,0x0
+800005f2:	01258593          	addi	a1,a1,18 # 80000600 <waitloop4+0x3f4>
+800005f6:	c10c                	sw	a1,0(a0)
+800005f8:	0055232f          	amoadd.w	t1,t0,(a0)
+800005fc:	000302e7          	jalr	t0,t1
+80000600:	00000597          	auipc	a1,0x0
+80000604:	01258593          	addi	a1,a1,18 # 80000612 <waitloop4+0x406>
+80000608:	c10c                	sw	a1,0(a0)
+8000060a:	0055232f          	amoadd.w	t1,t0,(a0)
+8000060e:	000302e7          	jalr	t0,t1
+80000612:	00000597          	auipc	a1,0x0
+80000616:	01258593          	addi	a1,a1,18 # 80000624 <waitloop4+0x418>
+8000061a:	c10c                	sw	a1,0(a0)
+8000061c:	0055232f          	amoadd.w	t1,t0,(a0)
+80000620:	000302e7          	jalr	t0,t1
+80000624:	00000597          	auipc	a1,0x0
+80000628:	01258593          	addi	a1,a1,18 # 80000636 <waitloop4+0x42a>
+8000062c:	c10c                	sw	a1,0(a0)
+8000062e:	0055232f          	amoadd.w	t1,t0,(a0)
+80000632:	000302e7          	jalr	t0,t1
+80000636:	00000597          	auipc	a1,0x0
+8000063a:	01258593          	addi	a1,a1,18 # 80000648 <waitloop4+0x43c>
+8000063e:	c10c                	sw	a1,0(a0)
+80000640:	0055232f          	amoadd.w	t1,t0,(a0)
+80000644:	000302e7          	jalr	t0,t1
+80000648:	00000597          	auipc	a1,0x0
+8000064c:	01258593          	addi	a1,a1,18 # 8000065a <waitloop4+0x44e>
+80000650:	c10c                	sw	a1,0(a0)
+80000652:	0055232f          	amoadd.w	t1,t0,(a0)
+80000656:	000302e7          	jalr	t0,t1
+8000065a:	00000597          	auipc	a1,0x0
+8000065e:	01258593          	addi	a1,a1,18 # 8000066c <waitloop4+0x460>
+80000662:	c10c                	sw	a1,0(a0)
+80000664:	0055232f          	amoadd.w	t1,t0,(a0)
+80000668:	000302e7          	jalr	t0,t1
+8000066c:	00000597          	auipc	a1,0x0
+80000670:	01258593          	addi	a1,a1,18 # 8000067e <waitloop4+0x472>
+80000674:	c10c                	sw	a1,0(a0)
+80000676:	0055232f          	amoadd.w	t1,t0,(a0)
+8000067a:	000302e7          	jalr	t0,t1
+8000067e:	00000597          	auipc	a1,0x0
+80000682:	01658593          	addi	a1,a1,22 # 80000694 <waitloop4+0x488>
+80000686:	c10c                	sw	a1,0(a0)
+80000688:	10500073          	wfi
+8000068c:	0055232f          	amoadd.w	t1,t0,(a0)
+80000690:	000302e7          	jalr	t0,t1
+80000694:	10500073          	wfi
 80000698:	00000597          	auipc	a1,0x0
-8000069c:	01658593          	addi	a1,a1,22 # 800006ae <waitloop4+0x48c>
+8000069c:	01258593          	addi	a1,a1,18 # 800006aa <waitloop4+0x49e>
 800006a0:	c10c                	sw	a1,0(a0)
-800006a2:	10500073          	wfi
-800006a6:	0055232f          	amoadd.w	t1,t0,(a0)
-800006aa:	000302e7          	jalr	t0,t1
-800006ae:	10500073          	wfi
-800006b2:	00000597          	auipc	a1,0x0
-800006b6:	01258593          	addi	a1,a1,18 # 800006c4 <waitloop4+0x4a2>
-800006ba:	c10c                	sw	a1,0(a0)
-800006bc:	0055232f          	amoadd.w	t1,t0,(a0)
-800006c0:	000302e7          	jalr	t0,t1
-800006c4:	10500073          	wfi
-800006c8:	0055232f          	amoadd.w	t1,t0,(a0)
-800006cc:	10500073          	wfi
-800006d0:	0055232f          	amoadd.w	t1,t0,(a0)
-800006d4:	10500073          	wfi
-800006d8:	0055232f          	amoadd.w	t1,t0,(a0)
-800006dc:	10500073          	wfi
-800006e0:	0055232f          	amoadd.w	t1,t0,(a0)
-800006e4:	10500073          	wfi
-800006e8:	0055232f          	amoadd.w	t1,t0,(a0)
-800006ec:	10500073          	wfi
-800006f0:	0055232f          	amoadd.w	t1,t0,(a0)
-800006f4:	10500073          	wfi
-800006f8:	0055232f          	amoadd.w	t1,t0,(a0)
-800006fc:	10500073          	wfi
-80000700:	0055232f          	amoadd.w	t1,t0,(a0)
-80000704:	10500073          	wfi
-80000708:	0055232f          	amoadd.w	t1,t0,(a0)
-8000070c:	10500073          	wfi
-80000710:	0055232f          	amoadd.w	t1,t0,(a0)
-80000714:	10500073          	wfi
-80000718:	0055232f          	amoadd.w	t1,t0,(a0)
-8000071c:	10500073          	wfi
-80000720:	0055232f          	amoadd.w	t1,t0,(a0)
-80000724:	10500073          	wfi
-80000728:	0055232f          	amoadd.w	t1,t0,(a0)
-8000072c:	10500073          	wfi
-80000730:	0055232f          	amoadd.w	t1,t0,(a0)
-80000734:	10500073          	wfi
-80000738:	0055232f          	amoadd.w	t1,t0,(a0)
-8000073c:	10500073          	wfi
-80000740:	0055232f          	amoadd.w	t1,t0,(a0)
-80000744:	10500073          	wfi
-80000748:	0055232f          	amoadd.w	t1,t0,(a0)
-8000074c:	10500073          	wfi
-80000750:	0055232f          	amoadd.w	t1,t0,(a0)
-80000754:	10500073          	wfi
-80000758:	0055232f          	amoadd.w	t1,t0,(a0)
-8000075c:	10500073          	wfi
-80000760:	0055232f          	amoadd.w	t1,t0,(a0)
-80000764:	10500073          	wfi
-80000768:	0055232f          	amoadd.w	t1,t0,(a0)
-8000076c:	10500073          	wfi
-80000770:	0055232f          	amoadd.w	t1,t0,(a0)
-80000774:	10500073          	wfi
-80000778:	0055232f          	amoadd.w	t1,t0,(a0)
-8000077c:	10500073          	wfi
-80000780:	0055232f          	amoadd.w	t1,t0,(a0)
-80000784:	10500073          	wfi
-80000788:	0055232f          	amoadd.w	t1,t0,(a0)
-8000078c:	10500073          	wfi
-80000790:	0055232f          	amoadd.w	t1,t0,(a0)
-80000794:	10500073          	wfi
-80000798:	0055232f          	amoadd.w	t1,t0,(a0)
-8000079c:	10500073          	wfi
-800007a0:	0055232f          	amoadd.w	t1,t0,(a0)
-800007a4:	10500073          	wfi
-800007a8:	0055232f          	amoadd.w	t1,t0,(a0)
-800007ac:	10500073          	wfi
-800007b0:	0055232f          	amoadd.w	t1,t0,(a0)
-800007b4:	10500073          	wfi
-800007b8:	0055232f          	amoadd.w	t1,t0,(a0)
-800007bc:	10500073          	wfi
-800007c0:	0055232f          	amoadd.w	t1,t0,(a0)
+800006a2:	0055232f          	amoadd.w	t1,t0,(a0)
+800006a6:	000302e7          	jalr	t0,t1
+800006aa:	10500073          	wfi
+800006ae:	0055232f          	amoadd.w	t1,t0,(a0)
+800006b2:	10500073          	wfi
+800006b6:	0055232f          	amoadd.w	t1,t0,(a0)
+800006ba:	10500073          	wfi
+800006be:	0055232f          	amoadd.w	t1,t0,(a0)
+800006c2:	10500073          	wfi
+800006c6:	0055232f          	amoadd.w	t1,t0,(a0)
+800006ca:	10500073          	wfi
+800006ce:	0055232f          	amoadd.w	t1,t0,(a0)
+800006d2:	10500073          	wfi
+800006d6:	0055232f          	amoadd.w	t1,t0,(a0)
+800006da:	10500073          	wfi
+800006de:	0055232f          	amoadd.w	t1,t0,(a0)
+800006e2:	10500073          	wfi
+800006e6:	0055232f          	amoadd.w	t1,t0,(a0)
+800006ea:	10500073          	wfi
+800006ee:	0055232f          	amoadd.w	t1,t0,(a0)
+800006f2:	10500073          	wfi
+800006f6:	0055232f          	amoadd.w	t1,t0,(a0)
+800006fa:	10500073          	wfi
+800006fe:	0055232f          	amoadd.w	t1,t0,(a0)
+80000702:	10500073          	wfi
+80000706:	0055232f          	amoadd.w	t1,t0,(a0)
+8000070a:	10500073          	wfi
+8000070e:	0055232f          	amoadd.w	t1,t0,(a0)
+80000712:	10500073          	wfi
+80000716:	0055232f          	amoadd.w	t1,t0,(a0)
+8000071a:	10500073          	wfi
+8000071e:	0055232f          	amoadd.w	t1,t0,(a0)
+80000722:	10500073          	wfi
+80000726:	0055232f          	amoadd.w	t1,t0,(a0)
+8000072a:	10500073          	wfi
+8000072e:	0055232f          	amoadd.w	t1,t0,(a0)
+80000732:	10500073          	wfi
+80000736:	0055232f          	amoadd.w	t1,t0,(a0)
+8000073a:	10500073          	wfi
+8000073e:	0055232f          	amoadd.w	t1,t0,(a0)
+80000742:	10500073          	wfi
+80000746:	0055232f          	amoadd.w	t1,t0,(a0)
+8000074a:	10500073          	wfi
+8000074e:	0055232f          	amoadd.w	t1,t0,(a0)
+80000752:	10500073          	wfi
+80000756:	0055232f          	amoadd.w	t1,t0,(a0)
+8000075a:	10500073          	wfi
+8000075e:	0055232f          	amoadd.w	t1,t0,(a0)
+80000762:	10500073          	wfi
+80000766:	0055232f          	amoadd.w	t1,t0,(a0)
+8000076a:	10500073          	wfi
+8000076e:	0055232f          	amoadd.w	t1,t0,(a0)
+80000772:	10500073          	wfi
+80000776:	0055232f          	amoadd.w	t1,t0,(a0)
+8000077a:	10500073          	wfi
+8000077e:	0055232f          	amoadd.w	t1,t0,(a0)
+80000782:	10500073          	wfi
+80000786:	0055232f          	amoadd.w	t1,t0,(a0)
+8000078a:	10500073          	wfi
+8000078e:	0055232f          	amoadd.w	t1,t0,(a0)
+80000792:	10500073          	wfi
+80000796:	0055232f          	amoadd.w	t1,t0,(a0)
+8000079a:	10500073          	wfi
+8000079e:	0055232f          	amoadd.w	t1,t0,(a0)
+800007a2:	10500073          	wfi
+800007a6:	0055232f          	amoadd.w	t1,t0,(a0)
+800007aa:	10500073          	wfi
+800007ae:	0055232f          	amoadd.w	t1,t0,(a0)
+800007b2:	10500073          	wfi
+800007b6:	0055232f          	amoadd.w	t1,t0,(a0)
+800007ba:	00000317          	auipc	t1,0x0
+800007be:	01630313          	addi	t1,t1,22 # 800007d0 <waitloop4+0x5c4>
+800007c2:	4285                	li	t0,1
 800007c4:	10500073          	wfi
-800007c8:	0055232f          	amoadd.w	t1,t0,(a0)
-800007cc:	10500073          	wfi
-800007d0:	0055232f          	amoadd.w	t1,t0,(a0)
-800007d4:	00000317          	auipc	t1,0x0
-800007d8:	01630313          	addi	t1,t1,22 # 800007ea <waitloop4+0x5c8>
-800007dc:	4285                	li	t0,1
-800007de:	10500073          	wfi
-800007e2:	02530333          	mul	t1,t1,t0
-800007e6:	000302e7          	jalr	t0,t1
-800007ea:	00000317          	auipc	t1,0x0
-800007ee:	01230313          	addi	t1,t1,18 # 800007fc <waitloop4+0x5da>
-800007f2:	4285                	li	t0,1
-800007f4:	02534333          	div	t1,t1,t0
-800007f8:	000302e7          	jalr	t0,t1
-800007fc:	10500073          	wfi
-80000800:	00000317          	auipc	t1,0x0
-80000804:	01230313          	addi	t1,t1,18 # 80000812 <waitloop4+0x5f0>
-80000808:	4285                	li	t0,1
-8000080a:	02530333          	mul	t1,t1,t0
-8000080e:	000302e7          	jalr	t0,t1
-80000812:	00000317          	auipc	t1,0x0
-80000816:	01630313          	addi	t1,t1,22 # 80000828 <waitloop4+0x606>
-8000081a:	4285                	li	t0,1
-8000081c:	10500073          	wfi
-80000820:	02534333          	div	t1,t1,t0
-80000824:	000302e7          	jalr	t0,t1
-80000828:	00000317          	auipc	t1,0x0
-8000082c:	01230313          	addi	t1,t1,18 # 8000083a <waitloop4+0x618>
-80000830:	4285                	li	t0,1
-80000832:	02530333          	mul	t1,t1,t0
-80000836:	000302e7          	jalr	t0,t1
-8000083a:	00000317          	auipc	t1,0x0
-8000083e:	01230313          	addi	t1,t1,18 # 8000084c <waitloop4+0x62a>
-80000842:	4285                	li	t0,1
-80000844:	02534333          	div	t1,t1,t0
-80000848:	000302e7          	jalr	t0,t1
+800007c8:	02530333          	mul	t1,t1,t0
+800007cc:	000302e7          	jalr	t0,t1
+800007d0:	00000317          	auipc	t1,0x0
+800007d4:	01230313          	addi	t1,t1,18 # 800007e2 <waitloop4+0x5d6>
+800007d8:	4285                	li	t0,1
+800007da:	02534333          	div	t1,t1,t0
+800007de:	000302e7          	jalr	t0,t1
+800007e2:	10500073          	wfi
+800007e6:	00000317          	auipc	t1,0x0
+800007ea:	01230313          	addi	t1,t1,18 # 800007f8 <waitloop4+0x5ec>
+800007ee:	4285                	li	t0,1
+800007f0:	02530333          	mul	t1,t1,t0
+800007f4:	000302e7          	jalr	t0,t1
+800007f8:	00000317          	auipc	t1,0x0
+800007fc:	01630313          	addi	t1,t1,22 # 8000080e <waitloop4+0x602>
+80000800:	4285                	li	t0,1
+80000802:	10500073          	wfi
+80000806:	02534333          	div	t1,t1,t0
+8000080a:	000302e7          	jalr	t0,t1
+8000080e:	00000317          	auipc	t1,0x0
+80000812:	01230313          	addi	t1,t1,18 # 80000820 <waitloop4+0x614>
+80000816:	4285                	li	t0,1
+80000818:	02530333          	mul	t1,t1,t0
+8000081c:	000302e7          	jalr	t0,t1
+80000820:	00000317          	auipc	t1,0x0
+80000824:	01230313          	addi	t1,t1,18 # 80000832 <waitloop4+0x626>
+80000828:	4285                	li	t0,1
+8000082a:	02534333          	div	t1,t1,t0
+8000082e:	000302e7          	jalr	t0,t1
+80000832:	00000317          	auipc	t1,0x0
+80000836:	01630313          	addi	t1,t1,22 # 80000848 <waitloop4+0x63c>
+8000083a:	10500073          	wfi
+8000083e:	4285                	li	t0,1
+80000840:	02530333          	mul	t1,t1,t0
+80000844:	000302e7          	jalr	t0,t1
+80000848:	10500073          	wfi
 8000084c:	00000317          	auipc	t1,0x0
-80000850:	01630313          	addi	t1,t1,22 # 80000862 <waitloop4+0x640>
-80000854:	10500073          	wfi
-80000858:	4285                	li	t0,1
-8000085a:	02530333          	mul	t1,t1,t0
-8000085e:	000302e7          	jalr	t0,t1
-80000862:	10500073          	wfi
-80000866:	00000317          	auipc	t1,0x0
-8000086a:	01230313          	addi	t1,t1,18 # 80000878 <waitloop4+0x656>
-8000086e:	4285                	li	t0,1
-80000870:	02534333          	div	t1,t1,t0
-80000874:	000302e7          	jalr	t0,t1
-80000878:	4185                	li	gp,1
-8000087a:	00301b63          	bne	zero,gp,80000890 <pass>
+80000850:	01230313          	addi	t1,t1,18 # 8000085e <waitloop4+0x652>
+80000854:	4285                	li	t0,1
+80000856:	02534333          	div	t1,t1,t0
+8000085a:	000302e7          	jalr	t0,t1
+8000085e:	4185                	li	gp,1
+80000860:	00301b63          	bne	zero,gp,80000876 <pass>
 
-8000087e <fail>:
-8000087e:	0ff0000f          	fence
-80000882:	00018063          	beqz	gp,80000882 <fail+0x4>
-80000886:	0186                	slli	gp,gp,0x1
-80000888:	0011e193          	ori	gp,gp,1
-8000088c:	00000073          	ecall
+80000864 <fail>:
+80000864:	0ff0000f          	fence
+80000868:	00018063          	beqz	gp,80000868 <fail+0x4>
+8000086c:	0186                	slli	gp,gp,0x1
+8000086e:	0011e193          	ori	gp,gp,1
+80000872:	00000073          	ecall
 
-80000890 <pass>:
-80000890:	0ff0000f          	fence
-80000894:	4185                	li	gp,1
-80000896:	00000073          	ecall
+80000876 <pass>:
+80000876:	0ff0000f          	fence
+8000087a:	4185                	li	gp,1
+8000087c:	00000073          	ecall
 	...
 
 Disassembly of section .tohost:
@@ -660,3 +658,30 @@ Disassembly of section .data:
 
 80002014 <data2>:
 	...
+
+Disassembly of section .riscv.attributes:
+
+00000000 <.riscv.attributes>:
+   0:	3641                	jal	fffffb80 <_end+0x7fffdb60>
+   2:	0000                	unimp
+   4:	7200                	flw	fs0,32(a2)
+   6:	7369                	lui	t1,0xffffa
+   8:	01007663          	bgeu	zero,a6,14 <_start-0x7fffffec>
+   c:	002c                	addi	a1,sp,8
+   e:	0000                	unimp
+  10:	7205                	lui	tp,0xfffe1
+  12:	3376                	fld	ft6,376(sp)
+  14:	6932                	flw	fs2,12(sp)
+  16:	7032                	flw	ft0,44(sp)
+  18:	5f30                	lw	a2,120(a4)
+  1a:	326d                	jal	fffff9c4 <_end+0x7fffd9a4>
+  1c:	3070                	fld	fa2,224(s0)
+  1e:	615f 7032 5f30      	0x5f307032615f
+  24:	3266                	fld	ft4,120(sp)
+  26:	3070                	fld	fa2,224(s0)
+  28:	645f 7032 5f30      	0x5f307032645f
+  2e:	30703263          	0x30703263
+  32:	0800                	addi	s0,sp,16
+  34:	0a01                	addi	s4,s4,0
+  36:	0b              	Address 0x0000000000000036 is out of bounds.
+

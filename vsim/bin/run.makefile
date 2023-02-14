@@ -23,7 +23,8 @@ SIM_TOOL      := vcs
 
 #To-ADD: to add the simulatoin tool options 
 ifeq ($(SIM_TOOL),vcs)
-SIM_OPTIONS   := +v2k -sverilog -q +lint=all,noSVA-NSVU,noVCDE,noUI,noSVA-CE,noSVA-DIU  -debug_access+all -full64 -timescale=1ns/10ps
+#SIM_OPTIONS   := +v2k -sverilog -q +lint=all,noSVA-NSVU,noVCDE,noUI,noSVA-CE,noSVA-DIU  -debug_access+all -full64 -timescale=1ns/10ps
+SIM_OPTIONS   := -full64 +v2k -sverilog -kdb -fsdb -ldflags -debug_access+all -LDFLAGS -Wl,--no-as-needed -timescale=1ns/10ps
 SIM_OPTIONS   += +incdir+"${VSRC_DIR}/core/"+"${VSRC_DIR}/perips/"+"${VSRC_DIR}/perips/apb_i2c/"
 endif
 ifeq ($(SIM_TOOL),iverilog)
